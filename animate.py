@@ -172,7 +172,6 @@ while True:
             else :
                 image = zom_right_standing
             screen.blit(image, (starting_x, starting_y))
-            
 
             
     if counter < len(update_actions) and counter != -1 :
@@ -187,6 +186,7 @@ while True:
                 else :
                     image = zom_right_standing
                 screen.blit(image, (starting_x, starting_y))
+
         else :
             ID = frame[0]
             IDPos = [0,0]
@@ -262,3 +262,4 @@ while True:
 
         pygame.display.update()
         mainClock.tick(30) # FRAMES PER SECOND
+
