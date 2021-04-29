@@ -31,6 +31,7 @@ anim_type_6 = 'steve_left_die steve_right_die steve_win'.split()
 anim_type_7 = 'steve_left_scan steve_right_scan zom_right_scan'.split()
 anim_type_8 = 'steve_left_attack steve_right_attack zom_left_attack zom_right_attack'.split()
 anim_objects = {}
+anim_rate = 600
 
 if map_width > 20 or map_height > 10 :
 
@@ -41,27 +42,27 @@ if map_width > 20 or map_height > 10 :
     player_width, player_height = steve_right_standing.get_size()
 
     for anim in anim_type_3:
-        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(3)]
+        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(3)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
 
     for anim in anim_type_4:
-        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(4)]
+        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(4)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
         
     for anim in anim_type_5:
-        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(5)]
+        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(5)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
         
     for anim in anim_type_6:
-        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(6)]
+        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(6)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
         
     for anim in anim_type_7:
-        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(7)]
+        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(7)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
         
     for anim in anim_type_8:
-        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(8)]
+        images_durations = [('baby_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(8)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
 
 else :
@@ -69,31 +70,31 @@ else :
     steve_left_standing = pygame.image.load('adult_sprite/steve_left_idle.png')
     steve_right_standing = pygame.image.load('adult_sprite/steve_right_idle.png')
     zom_left_standing = pygame.image.load('adult_sprite/zom_left_idle.png')
-    zom_right_standing = pygame.image.load('adult_sprite/zom_right_idle.png')    
+    zom_right_standing = pygame.image.load('adult_sprite/zom_right_idle.png')
     player_width, player_height = steve_right_standing.get_size()
 
     for anim in anim_type_3:
-        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(3)]
+        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(3)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
 
     for anim in anim_type_4:
-        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(4)]
+        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(4)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
         
     for anim in anim_type_5:
-        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(5)]
+        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(5)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
         
     for anim in anim_type_6:
-        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(6)]
+        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(6)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
         
     for anim in anim_type_7:
-        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(7)]
+        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(7)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
         
     for anim in anim_type_8:
-        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), 1) for num in range(8)]
+        images_durations = [('adult_sprite/%s_%s.png' % (anim, str(num)), anim_rate) for num in range(8)]
         anim_objects[anim] = pyganim.PygAnimation(images_durations)
         
 # CREATE THE WINDOW
@@ -102,25 +103,30 @@ window_width = map_width * player_width
 window_height = map_height * player_height
 screen = pygame.display.set_mode((window_width, window_height), 0, 32)
 
+default_rect = steve_right_standing.get_rect()
+transparent = (0, 0, 0, 0)
+
 
 LEFT = 'left'
 RIGHT = 'right'
 
 direction = RIGHT
-RATE = 4
-
+rate = 500
 
 simplified_actions = list()
+starting_position = dict()
 
 for item in store_actions:
     if item == 'None' :
         continue
     else :
         words = item.split()
-        identification = words[1]
-        x_position = ''.join(i for i in words[3] if i.isdigit())
-        y_position = ''.join(i for i in words[4] if i.isdigit())
+        identification = int(words[1])
+        x_position = int(''.join(i for i in words[3] if i.isdigit()))
+        y_position = int(''.join(i for i in words[4] if i.isdigit()))
         x_and_y = [x_position, y_position]
+        if identification not in starting_position.keys() :
+            starting_position[identification] = x_and_y
         if 'died!' in words :
             simplified_actions.append([identification, x_and_y, 'died!'])
         if 'aging' in words :
@@ -128,80 +134,117 @@ for item in store_actions:
         if 'scanning' in words :
             simplified_actions.append([identification, x_and_y, 'scanning'])
         if 'moving' in words :
-            x_new = ''.join(i for i in words[-2] if i.isdigit())
-            y_new = ''.join(i for i in words[-1] if i.isdigit())
+            x_new = int(''.join(i for i in words[-2] if i.isdigit()))
+            y_new = int(''.join(i for i in words[-1] if i.isdigit()))
             x_and_y_new = [x_new, y_new]
             simplified_actions.append([identification, x_and_y, 'moving', x_and_y_new])
         if 'attacking' in words :
-            target = ''.join(i for i in words[-1] if i.isdigit())
+            target = int(''.join(i for i in words[-1] if i.isdigit()))
             simplified_actions.append([identification, x_and_y, 'attacking', target])
             # simplified_actions.append([target, x_and_y, 'attacked'])
-
-
-
-
-
+    
+counter = -1
 
 
 
 while True:
     screen.blit(background_image, [0, 0])
-    for frame in simplified_actions:
-        ID = int(frame[0])
+    for item in starting_position:
+        starting_x = starting_position[item][0] * player_width
+        starting_y = starting_position[item][1] * player_height
+        if item == 0 :
+            image = steve_right_standing
+        else :
+            image = zom_right_standing
+        screen.blit(image, (starting_x, starting_y))
+    if counter == 0 : # while counter < len(simplified_actions):
+        frame = simplified_actions[counter]
+        ID = frame[0]
         IDPos = [0,0]
-        IDPos[0] = int(frame[1][0])
-        IDPos[1] = int(frame[1][1])
-        event = frame[2]
-        if event == 'moving':
+        IDPos[0] = frame[1][0]
+        IDPos[1] = frame[1][1]
+        action = frame[2]
+        if action == 'moving':
             newPos = [0,0]
-            newPos[0] = int(frame[3][0])
-            newPos[1] = int(frame[3][1])
+            newPos[0] = frame[3][0]
+            newPos[1] = frame[3][1]
         if ID == 0:
-            x , y = IDPos
-            xtrue = x*player_width
-            ytrue = y*player_height
-            if event == 'healing':
-                anim_objects['steve_right_heal'].blit(screen, (xtrue, ytrue))
-            elif event == 'aging':
-                anim_objects['steve_right_age'].blit(screen, (xtrue, ytrue))
-            elif event == 'scanning':
-                anim_objects['steve_right_scan'].blit(screen, (xtrue, ytrue))
-                
-            elif event == 'attacking':
-                anim_objects['steve_right_attack'].blit(screen, (xtrue, ytrue))
-                    
-            elif event == 'moving':
+            x0 , y0 = IDPos
+            xtrue = x0*player_width
+            ytrue = y0*player_height
+            image = steve_right_standing
+            if action == 'healing':
+                animation = anim_objects['steve_right_heal']
+            elif action == 'aging':
+                animation = anim_objects['steve_right_age']
+            elif action == 'scanning':
+                animation = anim_objects['steve_right_scan']  
+            elif action == 'attacking':
+                animation = anim_objects['steve_right_attack']
+            elif action == 'moving':
                 xnew , ynew = newPos
-                if x > xnew:
-                    anim_objects['steve_left_walk'].blit(screen, (xtrue, ytrue))
+                xnew = xnew * player_width
+                ynew = ynew * player_height
+                if x0 > xnew:
+                    animation = anim_objects['steve_left_walk']
                 else:
-                    anim_objects['steve_right_walk'].blit(screen, (xtrue, ytrue))
-            elif event == 'died':
-                anim_objects['steve_right_die'].blit(screen, (xtrue, ytrue))
+                    animation = anim_objects['steve_right_walk']
+            elif action == 'died!':
+                animation = anim_objects['steve_right_die']
         else:
-            x , y = IDPos
-            xtrue = x*player_width
-            ytrue = y*player_height
-            if event == 'healing':
-                anim_objects['zom_right_heal'].blit(screen, (xtrue, ytrue))
-                
-            elif event == 'aging':
-                anim_objects['zom_right_age'].blit(screen, (xtrue, ytrue))
-                
-            elif event == 'scanning':
-                anim_objects['zom_right_scan'].blit(screen, (xtrue, ytrue))
-                
-            elif event == 'attacking':
-                anim_objects['zom_right_attack'].blit(screen, (xtrue, ytrue))
-                    
-            elif event == 'moving':
+            x1 , y1 = IDPos
+            xtrue = x1*player_width
+            ytrue = y1*player_height
+            image = zom_right_standing
+            if action == 'healing':
+                animation = anim_objects['zom_right_heal']
+            elif action == 'aging':
+                animation = anim_objects['zom_right_age']
+            elif action == 'scanning':
+                animation = anim_objects['zom_right_scan']
+            elif action == 'attacking':
+                animation = anim_objects['zom_right_attack']
+            elif action == 'moving':
                 xnew , ynew = newPos
-                if x > xnew:
-                    anim_objects['zom_left_walk'].blit(screen, (xtrue, ytrue))
+                xnew = xnew * player_width
+                ynew = ynew * player_height
+                if x1 > xnew:
+                    animation = anim_objects['zom_left_walk']
                 else:
-                    anim_objects['zom_right_walk'].blit(screen, (xtrue, ytrue))
-            elif event == 'died':
-                anim_objects['zom_right_die'].blit(screen, (xtrue, ytrue))
-    
+                    animation = anim_objects['zom_right_walk']
+            elif action == 'died!':
+                animation = anim_objects['zom_right_die']  
+        
+        screen.blit(background_image, (xtrue, ytrue), pygame.Rect(xtrue, ytrue, player_width, player_height))
+        animation.blit(screen, (xtrue, ytrue))
+        animation.play()
+        animation.stop()
+        
+        if ID == 0 and action == 'moving':
+            image = steve_right_standing
+            screen.blit(image, (xnew, ynew))
+        elif ID == 0:
+            image = steve_right_standing
+            screen.blit(image, (xtrue, ytrue))
+        elif action == 'moving':
+            image = zom_right_standing
+            screen.blit(image, (xnew, ynew))
+        else :
+            image = zom_right_standing
+            screen.blit(image, (xtrue, ytrue))
+                
+
+        
+    for event in pygame.event.get(): # event handling loop
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == KEYDOWN and event.key == K_z:
+            counter += 1
+
+         
+            
+            
+            
     pygame.display.update()
     mainClock.tick(30) # FRAMES PER SECOND
