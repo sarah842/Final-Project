@@ -174,20 +174,23 @@ class ZombieHunter(IGame):
 
     def __init__(self, knobs):
         ''' Constructor for Zombie Hunter. '''
-        IGame.__init__(self, 2, knobs)
+        IGame.__init__(self, 3, knobs)
         self._world = Map(15, 15)
         self._world.generateRandomPlayer(1000)
         for i in range(5):
             self._world.generateRandomZombie(100)
         self.heal_count = dict()
         self._knobs = knobs
+        
+        ''' ADDING STUFF '''
+        self.store_actions = list()
 
     def executeFrame(self):
         ''' All the logic for a single frame. '''
         # Get all actions for all characters
         if self._knobs.print_events:
-            # print('Events')
-            # print('---')
+            print('Events')
+            print('---')
         events = list()
         for obj in self._world.getObjects():
             if isinstance(obj, ICharacter):
@@ -214,15 +217,21 @@ class ZombieHunter(IGame):
                 if add_event:
                     events.append(event)
                     if self._knobs.print_events:
-                        # print(event)
+                        print(event)
+                        
+                        ''' ADDING STUFF '''
+                        self.store_actions.append(str(event))
 
                 # If the character is not healing, make it age
                 if not healing:
                     event = AgeEvent(obj)
                     events.append(event)
                     if self._knobs.print_events:
-                        # print(event)
-
+                        print(event)
+                        
+                        ''' ADDING STUFF '''
+                        self.store_actions.append(str(event))
+                        
         # Execute actions in proper sequence
         for heal in [event for event in events if isinstance(event, HealEvent)]:
             heal.executeEvent()
@@ -243,34 +252,16 @@ class ZombieHunter(IGame):
                     remove_obj_ids.append(obj.getID())
         for obj_id in remove_obj_ids:
             if self._knobs.print_events:
-                # print('{} died!'.format(self._world.getObjectByID(obj_id)))
+                print('{} died!'.format(self._world.getObjectByID(obj_id)))
             self._world.removeByID(obj_id)
 
         if self._knobs.print_events:
-            # print('---')
+            print('---')
 
         if self._knobs.print_map:
-            # print('Map')
-            # print('---')
-            # print(self._world)
-        print(events)
-            
-# ADDING NEW DEFINITION
-
-# def StoreData(ZombieHunter):
-#     information = dict()
-    
-
-
-
-
-
-
-
-
-
-
-
+            print('Map')
+            print('---')
+            print(self._world)
 
 def main():
     parser = OptionParser()
@@ -284,6 +275,9 @@ def main():
 
     game = ZombieHunter(options)
     game.loopMain()
+    
+    ''' ADDING STUFF '''
+    return game.store_actions
 
 if __name__ == '__main__':
     main()
