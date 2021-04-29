@@ -35,6 +35,22 @@ class PlayerCharacter(ICharacter):
         # You may add any instance attributes you find useful to save information between frames
 
     def selectBehavior(self):
+        prob = random.random()
         if self.getHealth() < self.getInitHealth()*0.5:
             return HealEvent(self)
+        elif prob < 0.3333:
+            x , y = self.getPos()
+            map_view = self.getMapView()
+            size_x , size_y = map_view.getMapSize()
+            x_move ,y_move = 1 , 1
+            if x + x_move < 0 or x + x_move >= size_x:
+                x_move = 0
+            if y + y_move < 0 or y + y_move >= size_y:
+                y_move = 0
+            return MoveEvent(self, x + x_move, y + y_move)
+        
+        elif 0.3333 <= prob < 0.6666:
+            return ScanEvent(self)
+        else:
+            return AttackEvent(self, 1)
         
