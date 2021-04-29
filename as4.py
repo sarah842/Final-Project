@@ -1,4 +1,3 @@
-import random
 import math
 
 from gamelib import *
@@ -38,7 +37,7 @@ class PlayerCharacter(ICharacter):
         prob = random.random()
         if self.getHealth() < self.getInitHealth()*0.5:
             return HealEvent(self)
-        elif prob < 0.3333:
+        elif prob < 0.6666:
             x , y = self.getPos()
             map_view = self.getMapView()
             size_x , size_y = map_view.getMapSize()
@@ -49,8 +48,7 @@ class PlayerCharacter(ICharacter):
                 y_move = 0
             return MoveEvent(self, x + x_move, y + y_move)
         
-        elif 0.3333 <= prob < 0.6666:
+        elif 0.6666 <= prob < 0.7:
             return ScanEvent(self)
         else:
             return AttackEvent(self, 1)
-        
