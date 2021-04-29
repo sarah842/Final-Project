@@ -144,22 +144,64 @@ for item in store_actions:
 
 
 
-# FOR TESTING
-
-anim_objects['steve_left_heal'].play()
-
 while True:
     screen.blit(background_image, [0, 0])
-    for event in pygame.event.get():
-        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-            pygame.quit()
-            sys.exit()
-        if event.type == KEYDOWN and event.key == K_l:
-            # press "L" key to stop looping
-            anim_objects['steve_left_heal'].loop = False
-
-    anim_objects['steve_left_heal'].blit(screen, (100, 50))
-    
+    for frame in simplified_actions:
+        ID = int(frame[0])
+        IDPos = [0,0]
+        IDPos[0] = int(frame[1][0])
+        IDPos[1] = int(frame[1][1])
+        event = frame[2]
+        if event == 'moving':
+            newPos = [0,0]
+            newPos[0] = int(frame[3][0])
+            newPos[1] = int(frame[3][1])
+        if ID == 0:
+            x , y = IDPos
+            xtrue = x*player_width
+            ytrue = y*player_height
+            if event == 'healing':
+                anim_objects['steve_right_heal'].blit(screen, (xtrue, ytrue))
+            elif event == 'aging':
+                anim_objects['steve_right_age'].blit(screen, (xtrue, ytrue))
+            elif event == 'scanning':
+                anim_objects['steve_right_scan'].blit(screen, (xtrue, ytrue))
+                
+            elif event == 'attacking':
+                anim_objects['steve_right_attack'].blit(screen, (xtrue, ytrue))
+                    
+            elif event == 'moving':
+                xnew , ynew = newPos
+                if x > xnew:
+                    anim_objects['steve_left_walk'].blit(screen, (xtrue, ytrue))
+                else:
+                    anim_objects['steve_right_walk'].blit(screen, (xtrue, ytrue))
+            elif event == 'died':
+                anim_objects['steve_right_die'].blit(screen, (xtrue, ytrue))
+        else:
+            x , y = IDPos
+            xtrue = x*player_width
+            ytrue = y*player_height
+            if event == 'healing':
+                anim_objects['zom_right_heal'].blit(screen, (xtrue, ytrue))
+                
+            elif event == 'aging':
+                anim_objects['zom_right_age'].blit(screen, (xtrue, ytrue))
+                
+            elif event == 'scanning':
+                anim_objects['zom_right_scan'].blit(screen, (xtrue, ytrue))
+                
+            elif event == 'attacking':
+                anim_objects['zom_right_attack'].blit(screen, (xtrue, ytrue))
+                    
+            elif event == 'moving':
+                xnew , ynew = newPos
+                if x > xnew:
+                    anim_objects['zom_left_walk'].blit(screen, (xtrue, ytrue))
+                else:
+                    anim_objects['zom_right_walk'].blit(screen, (xtrue, ytrue))
+            elif event == 'died':
+                anim_objects['zom_right_die'].blit(screen, (xtrue, ytrue))
     
     pygame.display.update()
     mainClock.tick(30) # FRAMES PER SECOND
