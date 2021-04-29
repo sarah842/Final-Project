@@ -15,9 +15,7 @@ pygame.init()
 
 pygame.display.set_caption('Zombie Hunter')
 background_image = pygame.image.load("scary_floor.jpeg")
-get_map = main.ZombieHunter(main.IGame)
-have_map = get_map._world
-map_dimensions = have_map.getSize()
+map_dimensions, store_actions = main.main()
 map_width = map_dimensions[0]
 map_height = map_dimensions[1]
 mainClock = pygame.time.Clock()
@@ -112,8 +110,39 @@ direction = RIGHT
 RATE = 4
 
 
-store_actions = main.main()
-print(store_actions)
+simplified_actions = list()
+
+for item in store_actions:
+    if item == 'None' :
+        continue
+    else :
+        words = item.split()
+        identification = words[1]
+        x_position = ''.join(i for i in words[3] if i.isdigit())
+        y_position = ''.join(i for i in words[4] if i.isdigit())
+        x_and_y = [x_position, y_position]
+        if 'died!' in words :
+            simplified_actions.append([identification, x_and_y, 'died!'])
+        if 'aging' in words :
+            simplified_actions.append([identification, x_and_y, 'aging'])
+        if 'scanning' in words :
+            simplified_actions.append([identification, x_and_y, 'scanning'])
+        if 'moving' in words :
+            x_new = ''.join(i for i in words[-2] if i.isdigit())
+            y_new = ''.join(i for i in words[-1] if i.isdigit())
+            x_and_y_new = [x_new, y_new]
+            simplified_actions.append([identification, x_and_y, 'moving', x_and_y_new])
+        if 'attacking' in words :
+            target = ''.join(i for i in words[-1] if i.isdigit())
+            simplified_actions.append([identification, x_and_y, 'attacking', target])
+            # simplified_actions.append([target, x_and_y, 'attacked'])
+
+
+
+
+
+
+
 
 # FOR TESTING
 
