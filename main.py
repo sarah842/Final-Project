@@ -277,7 +277,7 @@ def main():
     game.loopMain()
     
     ''' ADDING STUFF '''
-    return game.store_actions
+    return game._world.getSize(), game.store_actions
 
 if __name__ == '__main__':
     main()
