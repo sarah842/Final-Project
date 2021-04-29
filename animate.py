@@ -5,6 +5,7 @@ from pygame.locals import *
 import sys
 import time
 import pyganim
+
 import gamelib
 import as4
 import main
@@ -106,15 +107,13 @@ screen = pygame.display.set_mode((window_width, window_height), 0, 32)
 
 LEFT = 'left'
 RIGHT = 'right'
+
 direction = RIGHT
 RATE = 4
 
-position = [0,0]
-position1 = [100,100]
-position2 = [200,200]
-position3 = [300,300]
 
-
+store_actions = main.main()
+print(store_actions)
 
 # FOR TESTING
 
