@@ -35,10 +35,10 @@ anim_rate = 200
 
 if map_width > 20 or map_height > 10 :
 
-    steve_left_standing = pygame.image.load('baby_sprite/steve_left_idle.png')
-    steve_right_standing = pygame.image.load('baby_sprite/steve_right_idle.png')
-    zom_left_standing = pygame.image.load('baby_sprite/zom_left_idle.png')
-    zom_right_standing = pygame.image.load('baby_sprite/zom_right_idle.png')
+    steve_left_standing = pygame.image.load('baby_sprite/steve_left_idle_0.png')
+    steve_right_standing = pygame.image.load('baby_sprite/steve_right_idle_0.png')
+    zom_left_standing = pygame.image.load('baby_sprite/zom_left_idle_0.png')
+    zom_right_standing = pygame.image.load('baby_sprite/zom_right_idle_0.png')
     player_width, player_height = steve_right_standing.get_size()
 
     for anim in anim_type_3:
@@ -67,10 +67,10 @@ if map_width > 20 or map_height > 10 :
 
 else :
 
-    steve_left_standing = pygame.image.load('adult_sprite/steve_left_idle.png')
-    steve_right_standing = pygame.image.load('adult_sprite/steve_right_idle.png')
-    zom_left_standing = pygame.image.load('adult_sprite/zom_left_idle.png')
-    zom_right_standing = pygame.image.load('adult_sprite/zom_right_idle.png')
+    steve_left_standing = pygame.image.load('adult_sprite/steve_left_idle_0.png')
+    steve_right_standing = pygame.image.load('adult_sprite/steve_right_idle_0.png')
+    zom_left_standing = pygame.image.load('adult_sprite/zom_left_idle_0.png')
+    zom_right_standing = pygame.image.load('adult_sprite/zom_right_idle_0.png')
     player_width, player_height = steve_right_standing.get_size()
 
     for anim in anim_type_3:
